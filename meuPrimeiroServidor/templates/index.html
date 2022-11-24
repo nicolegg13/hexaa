@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hola</title>
+    <!-- tag link estática -->
+    <link
+        rel="stylesheet"
+        href="../static/css/main.css">
+    <!-- tag link do servidor -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+
+<h1>Hola</h1>
+
+<p>Hola que tal</p>
+
+<!-- começo do trecho gerado pelo servidor -->
+{% autoescape false %}
+
+{{ meu_novo_paragrafo }}
+
+{% endautoescape %}
+<!-- fim do trecho gerado pelo servidor -->
+
+<!-- versão dinâmica, pelo servidor -->
+<img src="{{ url_for('static', filename='img/kanye.jpg') }}", width="300px">
+
+<a href="{{ url_for('pagina_da_copa') }}">Página da copa</a>
+
+</br> </br> </br>
+<label for="meu_seletor">Qual o melhor jogador do Brasil?</label></br>
+<select id="meu_seletor">
+    <option value="richarlison">richarlison</option>
+    <option value="neymar">neymar</option>
+    <option value="daniel_alves">daniel alves</option>
+    <option value="vinicius_junior">vinicius junior</option>
+    <option value="cusco">cachorro fodastico brasileiro futebolista patriota jogador caro</option>
+</select>
+<button id="botao_enviar">enviar!</button>
+</br> </br>
+<img src="static/img/cuscohexa2.jpg"  height="200" width="200">
+<img src="static/img/cuscohexa.jpg"  height="200" width="400">
+
+</body>
+<script
+   src="https://code.jquery.com/jquery-3.3.1.min.js"
+   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+   crossorigin="anonymous">
+</script>
+<script type="application/javascript">
+    $("#botao_enviar").on("click", function(event) {
+    event.preventDefault(); // o usuário precisa selecionar um valor diferente do default, senão não envia a requisição
+
+    $.ajax({
+        method: "POST",
+        url: "{{ url_for('hexa') }}", // deve ser o mesmo nome do método definido no servidor
+        // envia uma variável de nome opcao_selecionada para os servidor
+        // essa variável tem o mesmo valor do elemento HTML select_tables (definido ali em cima no código)
+        data: {selecionado: $("#meu_seletor").val()},
+        success: function(responseData) {
+            window.alert('o jogador selecionado foi ' + responseData['jogador']);
+        }
+    });
+});
+</script>
+</html>
