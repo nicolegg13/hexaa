@@ -1,3 +1,5 @@
+import sqlite3
+
 import flask
 
 
@@ -10,9 +12,24 @@ def main():
 
     @app.route('/', methods=['GET'])
     def main_page(): #roteamento para pagina inicial
+        with sqlite3.connect('static/database/test.db') as con: #comando sql com cursor
+            cur = con.cursor()
+            #retorna uma lista de tuplas
+            cur.execute('SELECT valor, nome FROM jogadores;') #pega valor e nome - transformar em lista de tuplas
+            texto_do_seletor = [] #lista vazia
+            for line in answer: #para cada linha de resposta (jogador)
+                texto_do_seletor.append(
+                    '<option value="{0}">{1}</option>'.format( #formata string
+                        line[0], line[1]  #e adiciona na lista
+                    )
+                )
+            texto_do_seletor = '\n'.join(texto_do_seletor) #transforma em string
+
+
         return flask.render_template(
             'index.html',
-            meu_novo_paragrafo='<p>Parágrafo gerado por servidor</p>'
+            meu_novo_paragrafo='<p>brasil espancou macetou comeu servia</p>',
+            meu_seletor=texto_do_seletor
         )
 
     @app.route('/hexa', methods=['GET'])
@@ -31,7 +48,7 @@ def main():
         jogador = flask.request.form.get('selecionado')
         print('o jogador selecionado foi ', jogador)
 
-        response = flask.jsonfy({'jogador': jogador})
+        response = flask.jsonify({'jogador': jogador})
         response.headers.add('Access-Control-Allow-Origin', '*') #a
         return response #retorna resposta para pagina inicial
 

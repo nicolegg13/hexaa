@@ -34,11 +34,18 @@
 </br> </br> </br>
 <label for="meu_seletor">Qual o melhor jogador do Brasil?</label></br>
 <select id="meu_seletor">
-    <option value="richarlison">richarlison</option>
-    <option value="neymar">neymar</option>
-    <option value="daniel_alves">daniel alves</option>
-    <option value="vinicius_junior">vinicius junior</option>
-    <option value="cusco">cachorro fodastico brasileiro futebolista patriota jogador caro</option>
+    <!-- começo do trecho gerado pelo servidor -->
+    {% autoescape false %}
+
+    {{ meu_seletor }}
+
+    {% endautoescape %}
+    <!-- fim do trecho gerado pelo servidor -->
+<!--    <option value="richarlison">richarlison</option>-->
+<!--    <option value="neymar">neymar</option>-->
+<!--    <option value="daniel_alves">daniel alves</option>-->
+<!--    <option value="vinicius_junior">vinicius junior</option>-->
+<!--    <option value="cusco">cachorro fodastico brasileiro futebolista patriota jogador caro</option>-->
 </select>
 <button id="botao_enviar">enviar!</button>
 </br> </br>
